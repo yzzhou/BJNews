@@ -1,13 +1,21 @@
 package myapplication.bjnews.fragment;
 
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioGroup;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import myapplication.bjnews.R;
 import myapplication.bjnews.base.BaseFragment;
+import myapplication.bjnews.base.BasePager;
+import myapplication.bjnews.pager.HomePager;
+import myapplication.bjnews.pager.NewsPager;
+import myapplication.bjnews.pager.SettingPager;
 
 /**
  * Created by zhouzhou on 2017/6/2.
@@ -19,6 +27,7 @@ public class ContentFragment extends BaseFragment {
     ViewPager vp;
     @Bind(R.id.rg_main)
     RadioGroup rgMain;
+    private ArrayList<BasePager> pagers;
 
     @Override
     public View initVeiw() {
@@ -34,6 +43,11 @@ public class ContentFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
+        pagers = new ArrayList<>();
+        pagers.add(new HomePager(context));
+        pagers.add(new NewsPager(context));
+        pagers.add(new SettingPager(context));
+        vp.setAdapter(new MyAdapter());
         rgMain.check(R.id.rb_home);
     }
 
@@ -41,5 +55,31 @@ public class ContentFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    private class MyAdapter extends PagerAdapter {
+        @Override
+        public int getCount() {
+            return pagers.size();
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            BasePager basePager = pagers.get(position);
+            View rootView = basePager.rootView;
+            basePager.initData();
+            container.addView(rootView);
+            return rootView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view ==object;
+        }
     }
 }
