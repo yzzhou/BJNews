@@ -27,7 +27,7 @@ public class WelcomeActivity extends AppCompatActivity {
         RotateAnimation rotateAnim = new RotateAnimation(0, 360,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
-        rotateAnim.setDuration(1000);//设置动画时长
+        rotateAnim.setDuration(2000);//设置动画时长
         rotateAnim.setFillAfter(true);//设置状态停留在播放后状态
 
         //缩放动画：大小从0~1变大,缩放中心：界面中心
@@ -35,12 +35,12 @@ public class WelcomeActivity extends AppCompatActivity {
                 0, 1,
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.5f);
-        scaleAnim.setDuration(1000);
+        scaleAnim.setDuration(2000);
         scaleAnim.setFillBefore(true);
 
         //渐变动画：透明度0~1变大
         AlphaAnimation alphaAnim = new AlphaAnimation(0, 1);
-        alphaAnim.setDuration(1000);
+        alphaAnim.setDuration(2000);
         alphaAnim.setFillAfter(true);
 
         //添加动画-没有先后顺序

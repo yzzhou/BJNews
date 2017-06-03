@@ -6,15 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.slidingmenu.lib.SlidingMenu;
+
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import myapplication.bjnews.R;
+import myapplication.bjnews.activity.MainActivity;
 import myapplication.bjnews.base.BaseFragment;
 import myapplication.bjnews.base.BasePager;
 import myapplication.bjnews.pager.HomePager;
 import myapplication.bjnews.pager.NewsPager;
+import myapplication.bjnews.pager.NoScrollViewPager;
 import myapplication.bjnews.pager.SettingPager;
 
 /**
@@ -24,7 +28,7 @@ import myapplication.bjnews.pager.SettingPager;
 public class ContentFragment extends BaseFragment {
 
     @Bind(R.id.vp)
-    ViewPager vp;
+    NoScrollViewPager vp;
     @Bind(R.id.rg_main)
     RadioGroup rgMain;
     private ArrayList<BasePager> pagers;
@@ -64,6 +68,30 @@ public class ContentFragment extends BaseFragment {
                 }
             }
         });
+        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                pagers.get(position).initData();
+                if(position ==1){
+                    MainActivity mainActivity = (MainActivity) context;
+                    mainActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+                }else{
+                    MainActivity mainActivity = (MainActivity) context;
+                    mainActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        pagers.get(0).initData();
         rgMain.check(R.id.rb_home);
     }
 
